@@ -54,7 +54,7 @@ and we will use https://github.com/wagoodman/dive[dive], A tool for exploring a 
 
 For more information, see this talk https://www.youtube.com/watch?v=lviLZFciDv4[(video)].
 
-So in your dockerFile you cannot do things like 
+So in your Dockerfile you cannot do things like 
 
 [source,Dockerfile]
 ----
@@ -79,5 +79,6 @@ and you can test by pointing your browser to http://localhost:8080/[]
 dive java-sample-distroless:latest --source podman
 ----
 
-
+image::img/distroless-1.png[500,600]
+image::img/distroless-2.png[500,600]
 
