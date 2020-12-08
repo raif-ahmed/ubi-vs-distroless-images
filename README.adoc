@@ -8,12 +8,12 @@
 
 = UBI vs Distorless Images
 
-.Goals
+.*Goals*
 
 * Introduction for GoogleContainer distroless
 
 
-.References :
+.*References:*
 ** https://github.com/GoogleContainerTools/distroless[]
 ** https://github.com/GoogleContainerTools/distroless/blob/master/examples/java/Dockerfile[]
 ** https://github.com/wagoodman/dive[]
@@ -22,7 +22,7 @@
 ** https://developers.redhat.com/products/rhel/ubi[]
 
 
-.Background 
+.*Background:*
 
 It all start with an email from my colleague https://github.com/rovandep[Romuald Vandepoel], where he mentioned 
 
