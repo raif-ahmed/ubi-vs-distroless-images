@@ -1,5 +1,5 @@
 :source-highlighter: highlightjs
-:data-uri: 
+:data-uri:
 :toc: left
 :markup-in-source: +verbatim,+quotes,+specialcharacters
 :icons: font
@@ -10,7 +10,7 @@
 
 .*Goals*
 
-* Introduction for GoogleContainer distroless
+quick introduction to both  UBI & Distorless Images, and try to compare the application container generated from both of them to see which is more optimal. 
 
 
 .*References:*
@@ -24,7 +24,7 @@
 
 .*Background:*
 
-It all start with an email from my colleague https://github.com/rovandep[Romuald Vandepoel], where he mentioned 
+It all start with an email from my colleague https://github.com/rovandep[Romuald Vandepoel], where he mentioned
 
 [quote, Romuald Vandepoel, Extracted from email "Weekly report NUMBER"]
 ____
@@ -40,7 +40,7 @@ localhost/distroless-go                       latest   4a336c7e8eed   21 hours a
 ----
 ____
 
-Really !! ubi-minimal is 112 MB and distroless-go is 26.3. So i thought to give it a try 
+Really !! ubi-minimal is 112 MB and distroless-go is 26.3. So i thought to give it a try
 
 So we have a common java application which emit "hello world", and we will try to build it using both UBI-minimal & Distroless.
 
@@ -56,7 +56,7 @@ and we will use https://github.com/wagoodman/dive[dive], A tool for exploring a 
 
 For more information, see this talk https://www.youtube.com/watch?v=lviLZFciDv4[(video)].
 
-So in your Dockerfile you cannot do things like 
+So in your Dockerfile you cannot do things like
 
 [source,Dockerfile]
 ----
@@ -72,7 +72,7 @@ podman build --pull --rm -f Dockerfile-destroless -t java-sample-distroless:late
 podman run  -p 8080:8080 java-sample-distroless:latest
 ----
 
-and you can test by pointing your browser to http://localhost:8080/[] 
+and you can test by pointing your browser to http://localhost:8080/[]
 
 === Inspect the Distroless Image using dive
 
@@ -89,7 +89,7 @@ image::img/distroless-2.png[500,600]
 
 === What is RedHat UBI
 
- Red Hat Universal Base Images (UBI) are OCI-compliant container base operating system images with complementary runtime languages and packages that are freely redistributable. Like previous base images, they are built from portions of Red Hat Enterprise Linux. UBI images can be obtained from the Red Hat container catalog, and be built and deployed anywhere. 
+ Red Hat Universal Base Images (UBI) are OCI-compliant container base operating system images with complementary runtime languages and packages that are freely redistributable. Like previous base images, they are built from portions of Red Hat Enterprise Linux. UBI images can be obtained from the Red Hat container catalog, and be built and deployed anywhere.
 
 as per https://developers.redhat.com/products/rhel/ubi[]
 
@@ -138,7 +138,7 @@ podman build --pull --rm -f Dockerfile-ubi -t java-sample-ubi:latest
 podman run  -p 8080:8080 java-sample-ubi:latest
 ----
 
-and you can test by pointing your browser to http://localhost:8080/[] 
+and you can test by pointing your browser to http://localhost:8080/[]
 
 === Inspect the UBI Image using dive
 
@@ -156,10 +156,10 @@ Distorless
 
 [source,bash]
 ----
-│ Image Details ├──────────────────────────────────────────────────────────────────────────────────────── 
-Total Image size: 130 MB                                                                                  
-Potential wasted space: 0 B                                                   
-Image efficiency score: 100 % 
+│ Image Details ├────────────────────────────────────────────────────────────────────────────────────────
+Total Image size: 130 MB
+Potential wasted space: 0 B
+Image efficiency score: 100 %
 ----
 
 
@@ -167,9 +167,8 @@ UBI
 
 [source,bash]
 ----
-│ Image Details ├──────────────────────────────────────────────────────────────────────────────────────── 
-Total Image size: 454 MB                                                                                  
-Potential wasted space: 21 MB                                                   
-Image efficiency score: 96 % 
+│ Image Details ├────────────────────────────────────────────────────────────────────────────────────────
+Total Image size: 454 MB
+Potential wasted space: 21 MB
+Image efficiency score: 96 %
 ----
-
