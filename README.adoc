@@ -18,6 +18,8 @@
 ** https://github.com/GoogleContainerTools/distroless/blob/master/examples/java/Dockerfile[]
 ** https://github.com/wagoodman/dive[]
 ** https://docs.docker.com/develop/develop-images/multistage-build/[]
+** https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image[]
+** https://developers.redhat.com/products/rhel/ubi[]
 
 
 .Background 
@@ -82,3 +84,70 @@ dive java-sample-distroless:latest --source podman
 image::img/distroless-1.png[500,600]
 image::img/distroless-2.png[500,600]
 
+
+== RedHat UBI
+
+=== What is RedHat UBI
+
+ Red Hat Universal Base Images (UBI) are OCI-compliant container base operating system images with complementary runtime languages and packages that are freely redistributable. Like previous base images, they are built from portions of Red Hat Enterprise Linux. UBI images can be obtained from the Red Hat container catalog, and be built and deployed anywhere. 
+
+as per https://developers.redhat.com/products/rhel/ubi[]
+
+
+Red Hat provides these three base images for starting your container development:
+
+3 UBI base image options
+
+* Standard
+
+** Image name: ubi
+*** Unified, OpenSSL crypto stack
+*** Full YUM stack
+*** Includes useful basic OS tools (tar, gzip, vi, etc.)
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#using_standard_red_hat_base_images[UBI Platform documentation]
+
+* Minimal
+
+** Image name: ubi-minimal
+
+*** Minimized pre-installed content set
+*** No suid binaries
+*** Minimal package manager (install, update, and remove)
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#using_minimal_red_hat_base_images[UBI minimal documentation]
+
+
+* Multi-service
+** Image name: ubi-init
+
+*** run mysql and httpd side-by-side in the same container
+*** run systemd in a container on start
+*** Enables services at build time
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#using_init_red_hat_base_images[UBI Multi-service documentation]
+
+=== Build the sample java app using UBI min
+to build the java sample application, use the following command.
+
+NOTE: don't forget to login to registry.redhat.io as ubi images are hosted there and service account is needed. Please check https://access.redhat.com/RegistryAuthentication[Red Hat Container Registry Authentication]
+
+[source,bash]
+----
+podman build --pull --rm -f Dockerfile-ubi -t java-sample-ubi:latest
+podman run  -p 8080:8080 java-sample-ubi:latest
+----
+
+and you can test by pointing your browser to http://localhost:8080/[] 
+
+=== Inspect the UBI Image using dive
+
+[source,bash]
+----
+dive java-sample-ubi:latest --source podman
+----
+
+image::img/ubi-1.png[500,600]
+image::img/ubi-2.png[500,600]
+
+== Conclusion

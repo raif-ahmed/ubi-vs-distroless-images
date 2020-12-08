@@ -1,20 +1,28 @@
-FROM registry.redhat.io/ubi8/ubi
+# https://github.com/GoogleContainerTools/distroless/blob/master/examples/java/Dockerfile
+FROM adoptopenjdk:8-jdk-hotspot AS build-env
 
+ARG MAVEN_VERSION=3.6.3
+ARG USER_HOME_DIR="/root"
+ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
-# Keep version 7.2 to show vulnerabilities
-RUN yum --disableplugin=subscription-manager -y module enable php:7.2 \
-  && yum --disableplugin=subscription-manager -y install httpd php \
-  && yum --disableplugin=subscription-manager clean all
+RUN mkdir -p /app /usr/share/maven /usr/share/maven/ref \
+ && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+ && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+ && rm -f /tmp/apache-maven.tar.gz \
+ && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
-ADD index.html /var/www/html
+ENV MAVEN_HOME /usr/share/maven
+ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
-RUN sed -i 's/Listen 80/Listen 8080/' /etc/httpd/conf/httpd.conf \
-  && mkdir /run/php-fpm \
-  && chgrp -R 0 /var/log/httpd /var/run/httpd /run/php-fpm \
-  && chmod -R g=u /var/log/httpd /var/run/httpd /run/php-fpm
+ADD ./sample-app/ /app
+WORKDIR /app
+RUN mvn compile 
+RUN jar cfe main.jar com.redhat.rahmed.demo.Main -C target/classes .
+RUN jar tf main.jar
+RUN pwd
 
-EXPOSE 8080
+FROM registry.redhat.io/ubi8/openjdk-8
+COPY --from=build-env /app/main.jar /app/main.jar
+WORKDIR /app
 
-USER 1001
-
-CMD php-fpm & httpd -D FOREGROUND
+CMD ["java", "-jar", "main.jar"]
