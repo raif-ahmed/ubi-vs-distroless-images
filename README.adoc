@@ -22,7 +22,7 @@
 
 .Background 
 
-It all start with an email from myy colleague https://github.com/rovandep[Romuald Vandepoel], where he mentioned 
+It all start with an email from my colleague https://github.com/rovandep[Romuald Vandepoel], where he mentioned 
 
 [quote, Romuald Vandepoel, Extracted from email "Weekly report NUMBER"]
 ____
@@ -50,6 +50,16 @@ and we will use https://github.com/wagoodman/dive[dive], A tool for exploring a 
 == GoogleContainer Distroless
 
 === What is GoogleContainer Distroless
+"Distroless" images contain only your application and its runtime dependencies. They do not contain package managers, shells or any other programs you would expect to find in a standard Linux distribution.
+
+For more information, see this talk https://www.youtube.com/watch?v=lviLZFciDv4[(video)].
+
+So in your dockerFile you cannot do things like 
+
+[source,Dockerfile]
+----
+RUN mkdir /mydir
+----
 
 === Build the sample java app using GoogleContainer Distroless
 to build the java sample application, use the following command.
