@@ -151,3 +151,25 @@ image::img/ubi-1.png[500,600]
 image::img/ubi-2.png[500,600]
 
 == Conclusion
+
+Distorless
+
+[source,bash]
+----
+│ Image Details ├──────────────────────────────────────────────────────────────────────────────────────── 
+Total Image size: 130 MB                                                                                  
+Potential wasted space: 0 B                                                   
+Image efficiency score: 100 % 
+----
+
+
+UBI
+
+[source,bash]
+----
+│ Image Details ├──────────────────────────────────────────────────────────────────────────────────────── 
+Total Image size: 454 MB                                                                                  
+Potential wasted space: 21 MB                                                   
+Image efficiency score: 96 % 
+----
+
