@@ -1,0 +1,73 @@
+:source-highlighter: highlightjs
+:data-uri: 
+:toc: left
+:markup-in-source: +verbatim,+quotes,+specialcharacters
+:icons: font
+:stylesdir: stylesheets
+:stylesheet: colony.css
+
+= UBI vs Distorless Images
+
+.Goals
+
+* Introduction for GoogleContainer distroless
+
+
+.References :
+** https://github.com/GoogleContainerTools/distroless[]
+** https://github.com/GoogleContainerTools/distroless/blob/master/examples/java/Dockerfile[]
+** https://github.com/wagoodman/dive[]
+** https://docs.docker.com/develop/develop-images/multistage-build/[]
+
+
+.Background 
+
+It all start with an email from myy colleague https://github.com/rovandep[Romuald Vandepoel], where he mentioned 
+
+[quote, Romuald Vandepoel, Extracted from email "Weekly report NUMBER"]
+____
+*this is a multi layer built using the go-toolset to compile a functional Go application then layered it with a distroless base, UBI and UBI minimal, here the final footprint:*
+
+[source,bash]
+----
+# podman images
+REPOSITORY                                    TAG      IMAGE ID       CREATED        SIZE
+localhost/ubi-minimal-go                      latest   8fac5e0bcbdf   5 hours ago    112 MB
+localhost/ubi-go                              latest   1f62a98919fa   5 hours ago    216 MB
+localhost/distroless-go                       latest   4a336c7e8eed   21 hours ago   26.3 MB
+----
+____
+
+Really !! ubi-minimal is 112 MB and distroless-go is 26.3. So i thought to give it a try 
+
+So we have a common java application which emit "hello world", and we will try to build it using both UBI-minimal & Distroless.
+
+In both cases we will https://docs.docker.com/develop/develop-images/multistage-build/[use multi-stage builds] to keep the image size minimal.
+and we will use https://github.com/wagoodman/dive[dive], A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image.
+
+:sectnums:
+
+== GoogleContainer Distroless
+
+=== What is GoogleContainer Distroless
+
+=== Build the sample java app using GoogleContainer Distroless
+to build the java sample application, use the following command.
+
+[source,bash]
+----
+podman build --pull --rm -f Dockerfile-destroless -t java-sample-distroless:latest
+podman run  -p 8080:8080 java-sample-distroless:latest
+----
+
+and you can test by pointing your browser to http://localhost:8080/[] 
+
+=== Inspect the Distroless Image using dive
+
+[source,bash]
+----
+dive java-sample-distroless:latest --source podman
+----
+
+
+
