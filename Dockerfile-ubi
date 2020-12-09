@@ -1,4 +1,3 @@
-# https://github.com/GoogleContainerTools/distroless/blob/master/examples/java/Dockerfile
 FROM adoptopenjdk:8-jdk-hotspot AS build-env
 
 ARG MAVEN_VERSION=3.6.3
